@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interface de Exploração</title>
+
+    <link rel="icon" href="Imgs/Logo icone.png" type="image/png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap"
+        rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Julius Sans One', sans-serif;
+            background-color: #668143;
+            color: #ECF9CC;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 90%;
+            margin: 20px 0;
+        }
+
+        header .profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+            /* Define o tamanho da fonte como 16px */
+            font-weight: 400;
+            /* Define o peso da fonte como regular */
+        }
+
+        header .profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #ECF9CC;
+        }
+
+        header .location i {
+            color: #ECF9CC;
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+            transform: scale(1.2);
+
+        }
+
+        /* Menu hambúrguer de filtro */
+        .menu-hamburguer {
+            position: fixed;
+            /* Fixa o menu na posição desejada */
+            top: 0;
+            right: -250px;
+            /* Mantém o menu fora da tela inicialmente */
+            width: 250px;
+            /* Largura do menu */
+            height: 100vh;
+            /* Altura do menu para cobrir toda a tela */
+            background-color: #668143;
+            /* Cor de fundo */
+            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.5);
+            /* Sombra para dar profundidade */
+            z-index: 1000;
+            /* Certifica-se de que o menu fique sobre outros elementos */
+            transition: right 0.3s ease;
+            /* Animação suave para o deslize */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Botão de fechar */
+        .menu-hamburguer .close-btn {
+            align-self: flex-end;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: #ECF9CC;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        /* Categoria de filtro */
+        .menu-hamburguer select.filter-category {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            background-color: #668143;
+            color: #ECF9CC;
+            cursor: pointer;
+            border: 2px solid #ECF9CC;
+        }
+
+        /* Opções de filtro */
+        .menu-hamburguer .filter-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            border-radius: 30px;
+            
+        }
+
+        .menu-hamburguer .filter-options button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            background-color: #ECF9CC;
+            color: #668143;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            border: 2px solid #ECF9CC;
+        }
+
+        .menu-hamburguer .filter-options button:hover {
+            background-color: #557132;
+            /* Cor de destaque ao passar o mouse */
+            transform: scale(1.05);
+            /* Efeito de aumento */
+            border-radius: 30px;
+            background-color: #668143;
+            color: #ECF9CC;
+            border: 2px solid #ECF9CC;
+        }
+
+        /* Botão "Salvar Filtro" */
+        .menu-hamburguer .save-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            background-color: #668143;
+            color: #ECF9CC;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            border: 2px solid #ECF9CC;
+        }
+
+        .menu-hamburguer .save-btn:hover {
+            background-color: #557132;
+            transform: scale(1.1);
+            /* Efeito de destaque */
+        }
+
+
+        .search-bar {
+            width: 90%;
+            display: flex;
+            align-items: center;
+            background-color: #668143;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px 0;
+
+        }
+
+        .search-bar input {
+            border: 3px solid #ECF9CC;
+            background-color: #668143;
+            border-radius: 20px;
+            flex: 1;
+            outline: none;
+            padding: 5px 15px;
+            font-size: 1rem;
+            color: #ECF9CC;
+        }
+
+        .search-bar i {
+            border: 2px;
+            font-size: 1.2rem;
+            margin-right: 15px;
+            margin-left: 15px;
+            color: #ECF9CC;
+            transition: transform 0.3s ease;
+            transform: scale(1.1);
+        }
+
+        .search-bar input::placeholder {
+            color: #ECF9CC;
+            font-size: 1rem;
+        }
+
+        section {
+            width: 90%;
+        }
+
+        section h2 {
+            margin: 20px 0 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            font-family: 'Julius Sans One', sans-serif;
+            margin-bottom: 30px;
+        }
+
+        .card-container {
+            display: flex;
+            gap: 10px;
+            padding-bottom: 10px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            width: 100%;
+
+        }
+
+        .card-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .card-container::-webkit-scrollbar-thumb {
+            background-color: #668143;
+            border-radius: 10px;
+        }
+
+        .card {
+            background-color: #ECF9CC;
+            border-radius: 15px;
+            padding: 10px;
+            width: 200px;
+            flex-shrink: 0;
+            scroll-snap-align: start;
+        }
+
+        .card img {
+            width: 100%;
+            height: auto;
+            max-height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .card h3 {
+            font-size: 1rem;
+            margin-bottom: 5px;
+            color: #668143;
+            font-family: 'Gantari', sans-serif;
+            text-align: center;
+
+        }
+
+        .card p {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            color: #668143;
+            font-family: 'Gantari', sans-serif;
+            align-items: center;
+
+        }
+
+        .card .location {
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #668143;
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+            /* Define o tamanho da fonte como 16px */
+            font-weight: 400;
+        }
+
+        .card .location i {
+            font-size: 1rem;
+            /* Ajusta o tamanho do ícone */
+            color: #668143;
+            /* Define a cor do ícone */
+            margin-right: 5px;
+
+        }
+
+        .scroll-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 10px;
+        }
+
+        .scroll-indicator span {
+            width: 30px;
+            height: 6px;
+            background-color: #ECF9CC;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .scroll-indicator span:hover {
+            transform: scale(1.5);
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #ECF9CC;
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            border-top-left-radius: 0px;
+            border-top-right-radius: 0px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+            /* Define o tamanho da fonte como 16px */
+            font-weight: 400;
+            /* Define o peso da fonte como regular */
+
+        }
+
+        .navigation a {
+            text-decoration: none;
+            color: #668143;
+            font-size: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease;
+
+
+        }
+
+        .navigation a:hover {
+            transform: scale(1.1);
+        }
+
+        .navigation a span {
+            font-size: 0.8rem;
+
+        }
+
+        /* Efeitos de transição para os ícones de localização, bússola e filtro */
+        .location i,
+        .search-bar .fa-sliders-h,
+        .search-bar .fa-search {
+            transition: transform 0.5s ease, rotate 0.5s ease;
+        }
+
+        .location i:hover,
+        .search-bar .fa-sliders-h:hover,
+        .search-bar .fa-search:hover {
+            transform: scale(1, 1);
+        }
+
+        /* Media Query para dispositivos móveis */
+        @media (max-width: 480px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .search-bar {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+
+            .search-bar input {
+                font-size: 0.9rem;
+            }
+
+            section h2 {
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+
+            .card-container {
+                display: block;
+                padding-bottom: 20px;
+                overflow-x: visible;
+            }
+
+            .card {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+
+            .scroll-indicator {
+                display: none;
+            }
+
+            .navigation {
+                flex-direction: column;
+                padding: 15px 0;
+            }
+
+            .navigation a {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Media Query para telas médias (ex: tablets) */
+        @media (max-width: 768px) {
+            header {
+                width: 95%;
+            }
+
+            .card-container {
+                gap: 20px;
+            }
+
+            .card {
+                width: 45%;
+            }
+
+            .navigation a {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="profile">
+            <img src="Imgs/Sung Jin-Woo..jpg" alt="Perfil">
+            <span id="username">Sung Jin-Woo.</span> <!-- Nome do usuário -->
+        </div>
+        <div class="location">
+            <a href="#">
+                <i class="fas fa-map-marker-alt"></i>
+            </a>
+        </div>
+    </header>
+
+    <div class="search-bar">
+        <a href="#">
+            <i class="fas fa-search"></i>
+        </a>
+        <input type="text" placeholder="Search">
+        <a href="#" id="openFilterMenu">
+            <i class="fas fa-sliders-h"></i>
+        </a>
+    </div>
+    <div class="menu-hamburguer" id="menu-hamburguer">
+        <ul>
+            <button class="close-btn" id="closeFilterMenu">&times;</button>
+            <select class="filter-category">
+                <option>Família</option>
+                <option>Amigos</option>
+                <option>Solo</option>
+            </select>
+            <div class="filter-options">
+                <button>Parques</button>
+                <button>Museu</button>
+                <button>Praias</button>
+                <button>Restaurantes</button>
+                <button>Clubs</button>
+                <button>Cinemas</button>
+                <button>Teatro</button>
+            </div>
+            <button class="save-btn">Salvar Filtro</button>
+        </ul>
+
+    <script src="filtro.js"></script>
+    </div>
+
+    <section>
+        <h2>Mais Visitados</h2>
+        <div class="card-container" id="mais-visitados">
+            <div class="card">
+                <img src="Imgs/image 1.png" alt="Lugar">
+                <h3>Museu Náutico da Bahia</h3>
+                <p>R$ 15,00</p>
+                <div class="location">
+                    <i class="fas fa-map-marker-alt"></i> Salvador/BA
+                </div>
+            </div>
+            <div class="card">
+                <img src="Imgs/image 2.png" alt="Lugar">
+                <h3>Pelourinho</h3>
+                <p>R$ Gratuito</p>
+                <div class="location">
+                    <i class="fas fa-map-marker-alt"></i> Salvador/BA
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator" id="mais-visitados-indicator">
+            <span></span><span></span><span></span>
+        </div>
+    </section>
+
+    <section>
+        <h2>Perto de Você</h2>
+        <div class="card-container" id="perto-de-voce">
+            <div class="card">
+                <img src="Imgs/image 3.png" alt="Lugar">
+                <h3>Lotti Cucina Italiana</h3>
+                <div class="location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <p>Av. Lafayette Coutinho</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="Imgs/image 4.png" alt="Lugar">
+                <h3>Museu de Arte Moderna</h3>
+                <div class="location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <p>Av. Lafayette Coutinho</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <nav class="navigation">
+        <a href="#">
+            <i class="fas fa-home"></i>
+            <span>Início</span>
+        </a>
+        <a href="#">
+            <i class="fas fa-heart"></i>
+            <span>Favoritos</span>
+        </a>
+        <a href="#">
+            <i class="fas fa-random"></i>
+            <span>Aleatório</span>
+        </a>
+        <a href="#">
+            <i class="fas fa-bell"></i>
+            <span>Notificações</span>
+        </a>
+        <a href="#">
+            <i class="fas fa-user"></i>
+            <span>Perfil</span>
+        </a>
+    </nav>
+
+</body>
+
+</html>
